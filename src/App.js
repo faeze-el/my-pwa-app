@@ -1,4 +1,5 @@
-import { useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 export default function App() {
   const [data, setData] = useState("");
@@ -21,6 +22,37 @@ export default function App() {
       console.error("Serial Port Error:", error);
     }
   };
+
+
+  useEffect(() => {
+    // Define the asynchronous function to fetch data
+    const fetchData = async () => {
+      try {
+        // Replace with your API endpoint
+        debugger 
+        const response = await axios.put('192.168.2.191/machine/file/gcodes/testfzh.gcode');
+        console.log(response);
+
+        // Handle successful response
+        // setData(response.data); // Assuming the API returns JSON data
+        // setLoading(false);
+      } catch (err) {
+        // Handle errors
+        // setError(err);
+        // setLoading(false);
+      }
+    };
+
+    // Call the fetchData function
+    fetchData();
+
+    // Optional: Cleanup function (e.g., to cancel the request if the component unmounts)
+    return () => {
+      //  You can cancel the request here if necessary.
+      //  e.g., if using an AbortController
+      //  controller.abort(); // If you were using an AbortController
+    };
+  }, []); // The empty dependency array ensures this effect runs only once (on component mount)
 
   return (
     <div style={{ textAlign: "center", padding: "20px" }}>
