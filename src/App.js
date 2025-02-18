@@ -4,6 +4,11 @@ import { useEffect, useState } from "react";
 export default function App() {
   const [data, setData] = useState("");
 
+  fetch("/machine/status")
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(error => console.error("Error:", error));
+
   const connectSerial = async () => {
     try {
       const port = await navigator.serial.requestPort();
@@ -24,14 +29,23 @@ export default function App() {
   };
 
 
+  // const [fileContent, setFileContent] = useState("");
   useEffect(() => {
+    
     // Define the asynchronous function to fetch data
     const fetchData = async () => {
+
+     
       try {
         // Replace with your API endpoint
-        debugger 
-        const response = await axios.put('192.168.2.191/machine/file/gcodes/testfzh.gcode');
-        console.log(response);
+        // const selectedFile = './pLeftgOutput.gcode';
+        // const result = await fetch(selectedFile); // Adjust filename if needed
+        // const text = await result.text();
+        // setFileContent(text);
+        
+        // debugger
+        // const response = await axios.put('http://192.168.2.191:80/machine/file/gcodes/testfzh.gcode', {content: text});
+        // console.log(response);
 
         // Handle successful response
         // setData(response.data); // Assuming the API returns JSON data
@@ -44,7 +58,7 @@ export default function App() {
     };
 
     // Call the fetchData function
-    fetchData();
+    // fetchData();
 
     // Optional: Cleanup function (e.g., to cancel the request if the component unmounts)
     return () => {
