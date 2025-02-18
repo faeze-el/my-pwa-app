@@ -2,13 +2,18 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 export default function App() {
+  
+
+  // fetch("http://192.168.2.191:80/machine/status")
+  // .then(response => response.json())
+  // .then(data => console.log(data))
+  // .catch(error => console.error("Error:", error));
+
+  const openPage = async()=>{
+    window.location.href = 'http://192.168.2.191:80/';
+  };
+
   const [data, setData] = useState("");
-
-  fetch("/machine/status")
-  .then(response => response.json())
-  .then(data => console.log(data))
-  .catch(error => console.error("Error:", error));
-
   const connectSerial = async () => {
     try {
       const port = await navigator.serial.requestPort();
@@ -29,7 +34,7 @@ export default function App() {
   };
 
 
-  // const [fileContent, setFileContent] = useState("");
+  const [fileContent, setFileContent] = useState("");
   useEffect(() => {
     
     // Define the asynchronous function to fetch data
@@ -38,14 +43,14 @@ export default function App() {
      
       try {
         // Replace with your API endpoint
-        // const selectedFile = './pLeftgOutput.gcode';
-        // const result = await fetch(selectedFile); // Adjust filename if needed
-        // const text = await result.text();
-        // setFileContent(text);
+        const selectedFile = './pLeftgOutput.gcode';
+        const result = await fetch(selectedFile); // Adjust filename if needed
+        const text = await result.text();
+        setFileContent(text);
         
         // debugger
-        // const response = await axios.put('http://192.168.2.191:80/machine/file/gcodes/testfzh.gcode', {content: text});
-        // console.log(response);
+        const response = await axios.put('http://192.168.2.191:80/machine/file/gcodes/testfzh.gcode', {content: text});
+        console.log(response);
 
         // Handle successful response
         // setData(response.data); // Assuming the API returns JSON data
@@ -58,7 +63,7 @@ export default function App() {
     };
 
     // Call the fetchData function
-    // fetchData();
+    fetchData();
 
     // Optional: Cleanup function (e.g., to cancel the request if the component unmounts)
     return () => {
@@ -71,7 +76,8 @@ export default function App() {
   return (
     <div style={{ textAlign: "center", padding: "20px" }}>
       <h1>Serial Port Reader (PWA)</h1>
-      <button onClick={connectSerial}>Connect to Serial Port</button>
+      {/* <button onClick={connectSerial}>Connect to Serial Port</button> */}
+      <button onClick={openPage}>Open page</button>
       <p>Data: {data}</p>
     </div>
   );
