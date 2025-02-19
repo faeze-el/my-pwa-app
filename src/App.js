@@ -10,7 +10,7 @@ export default function App() {
   // .catch(error => console.error("Error:", error));
 
   const openPage = async()=>{
-    window.location.href = 'http://192.168.2.191:80/';
+    window.location.href = 'https://192.168.2.191:80/';
   };
 
   const [data, setData] = useState("");
