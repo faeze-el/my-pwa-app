@@ -33,13 +33,30 @@ export default function App() {
     }
   };
 
+  const proxyUrl = "https://backend-phi-silk-82.vercel.app/by-pass-api";
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch(proxyUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url: "http://192.168.2.198:80/machine/status" }),
+      });
+
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
   const [jsonData, setJsonData] = useState(null);
   const ConnectPrinter = async () => {
     try {
       // Replace with your API endpoint
-      const selectedFile = './pLeftgOutput.gcode';
-      const result = await fetch(selectedFile); // Adjust filename if needed
-      const text = await result.text();
+      // const selectedFile = './pLeftgOutput.gcode';
+      // const result = await fetch(selectedFile); // Adjust filename if needed
+      // const text = await result.text();
       // setFileContent(text);
       
       // debugger
@@ -64,7 +81,7 @@ export default function App() {
       <h1>Serial Port Reader (PWA)</h1>
       {/* <button onClick={connectSerial}>Connect to Serial Port</button> */}
       {/* <button onClick={openPage}>Open page</button> */}
-      <button onClick={ConnectPrinter}>Connect to 3D printer</button>
+      <button onClick={fetchData}>Connect to 3D printer</button>
       {/* <p>Data: {data}</p> */}
       <textarea rows = '20' cols='50' value={jsonData || ''} readOnly style={{ marginTop: '10px' }}></textarea>
     </div>
