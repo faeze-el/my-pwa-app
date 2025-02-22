@@ -77,7 +77,7 @@ export default function App() {
       // debugger
       // const response = await axios.put('http://192.168.2.198:80/machine/file/gcodes/testfzh.gcode', {content: text});
       // const response = await axios.put('http://192.168.2.198:80/tsoles/queue?filename=0:/gcodes/', {content: text});
-      const response = await axios.get('http://192.168.2.198:80/machine/status');
+      const response = await axios.get('https://localhost:3000/api/status');
       setJsonData(JSON.stringify(response.data, null, 2));
       console.log(response);
 
