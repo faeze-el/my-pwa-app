@@ -33,7 +33,7 @@ export default function App() {
     }
   };
 
-  const proxyUrl = "https://backend-phi-silk-82.vercel.app/by-pass-api";
+  const proxyUrl = "http://localhost:5000/by-pass-api";
 
   const fetchData = async () => {
     try {
@@ -42,14 +42,29 @@ export default function App() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ url: "http://192.168.2.198:80/machine/status" }),
       });
-
+      console.log(response);
       const data = await response.json();
       console.log(data);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
-
+  
+  const websocketConnect = async()=>{
+    const socket = new WebSocket('ws://192.168.2.198:80/');
+    socket.onopen = function () {
+      console.log("Connected to Duet Web Server");
+      socket.send("/machine/status"); // Send G-code command
+  };
+  
+  socket.onmessage = function (event) {
+      console.log("Received:", event.data);
+  };
+  
+  socket.onerror = function (error) {
+      console.error("WebSocket Error:", error);
+  };
+  };
   const [jsonData, setJsonData] = useState(null);
   const ConnectPrinter = async () => {
     try {
@@ -81,7 +96,7 @@ export default function App() {
       <h1>Serial Port Reader (PWA)</h1>
       {/* <button onClick={connectSerial}>Connect to Serial Port</button> */}
       {/* <button onClick={openPage}>Open page</button> */}
-      <button onClick={fetchData}>Connect to 3D printer</button>
+      <button onClick={ConnectPrinter}>Connect to 3D printer</button>
       {/* <p>Data: {data}</p> */}
       <textarea rows = '20' cols='50' value={jsonData || ''} readOnly style={{ marginTop: '10px' }}></textarea>
     </div>
