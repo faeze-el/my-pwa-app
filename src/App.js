@@ -9,62 +9,62 @@ export default function App() {
   // .then(data => console.log(data))
   // .catch(error => console.error("Error:", error));
 
-  const openPage = async()=>{
-    window.location.href = 'http://192.168.2.191:80/';
-  };
+  // const openPage = async()=>{
+  //   window.location.href = 'http://192.168.2.191:80/';
+  // };
 
-  const [data, setData] = useState("");
-  const connectSerial = async () => {
-    try {
-      const port = await navigator.serial.requestPort();
-      await port.open({ baudRate: 9600 });
+  // const [data, setData] = useState("");
+  // const connectSerial = async () => {
+  //   try {
+  //     const port = await navigator.serial.requestPort();
+  //     await port.open({ baudRate: 9600 });
 
-      const reader = port.readable.getReader();
-      while (true) {
-        const { value, done } = await reader.read();
-        if (done) {
-          reader.releaseLock();
-          break;
-        }
-        setData((prevData) => prevData + new TextDecoder().decode(value));
-      }
-    } catch (error) {
-      console.error("Serial Port Error:", error);
-    }
-  };
+  //     const reader = port.readable.getReader();
+  //     while (true) {
+  //       const { value, done } = await reader.read();
+  //       if (done) {
+  //         reader.releaseLock();
+  //         break;
+  //       }
+  //       setData((prevData) => prevData + new TextDecoder().decode(value));
+  //     }
+  //   } catch (error) {
+  //     console.error("Serial Port Error:", error);
+  //   }
+  // };
 
-  const proxyUrl = "http://localhost:5000/by-pass-api";
+  // const proxyUrl = "http://localhost:5000/by-pass-api";
 
-  const fetchData = async () => {
-    try {
-      const response = await fetch(proxyUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url: "http://192.168.2.198:80/machine/status" }),
-      });
-      console.log(response);
-      const data = await response.json();
-      console.log(data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
+  // const fetchData = async () => {
+  //   try {
+  //     const response = await fetch(proxyUrl, {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify({ url: "http://192.168.2.198:80/machine/status" }),
+  //     });
+  //     console.log(response);
+  //     const data = await response.json();
+  //     console.log(data);
+  //   } catch (error) {
+  //     console.error("Error fetching data:", error);
+  //   }
+  // };
   
-  const websocketConnect = async()=>{
-    const socket = new WebSocket('ws://192.168.2.198:80/');
-    socket.onopen = function () {
-      console.log("Connected to Duet Web Server");
-      socket.send("/machine/status"); // Send G-code command
-  };
+  // const websocketConnect = async()=>{
+  //   const socket = new WebSocket('ws://192.168.2.198:80/');
+  //   socket.onopen = function () {
+  //     console.log("Connected to Duet Web Server");
+  //     socket.send("/machine/status"); // Send G-code command
+  // };
   
-  socket.onmessage = function (event) {
-      console.log("Received:", event.data);
-  };
+  // socket.onmessage = function (event) {
+  //     console.log("Received:", event.data);
+  // };
   
-  socket.onerror = function (error) {
-      console.error("WebSocket Error:", error);
-  };
-  };
+  // socket.onerror = function (error) {
+  //     console.error("WebSocket Error:", error);
+  // };
+  // };
   const [jsonData, setJsonData] = useState(null);
   const ConnectPrinter = async () => {
     try {
